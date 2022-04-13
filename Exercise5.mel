@@ -1,0 +1,20 @@
+//Write a script with UI that has a textField and a button, where the user
+//can enter their name and hitting the button will print a welcome message, addressing
+//the user by the name they entered
+
+{
+    global string $myLabel;
+    proc printName(string $name)
+    {
+        print ("Welcome " + $name + "\n");
+    }
+    
+    {
+        string $window = `window -title "Exercise5" -s 0 -w 300 -h 500`;
+        columnLayout;
+            $myLabel = `textField`;
+            button -l "Print" -c "string $currentInput = `textField -q -text $myLabel`; printName($currentInput)";
+            button -l "Close" -c ("deleteUI -window " + $window);
+        showWindow $window;
+    }
+}

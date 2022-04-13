@@ -1,0 +1,43 @@
+//Write a script that will create 3 polySpheres and 3 polyCubes.
+//The 3 polySphere should be placed 5 units from each other in X. but not moved in Y or Z.
+//The 3 polyCubes should be on top of the spheres in the viewport (3 units above)
+//The first cube should have a red lambert material assigned to it,
+//the second cube should have a green lambert material assigned to it,
+//the third cube should have a blue blinn material assigned to it.
+{
+    string $myS1[] = `polySphere -r 1`;
+    string $myS2[] = `polySphere -r 1`;
+    string $myS3[] = `polySphere -r 1`;
+    
+    string $myC1[] = `polyCube`;
+    string $myC2[] = `polyCube`;
+    string $myC3[] = `polyCube`;
+    
+    setAttr ($myS2[0] + ".translateX") 5;
+    setAttr ($myS3[0] + ".translateX") 10;
+    
+    setAttr ($myC2[0] + ".translateX") 5;
+    setAttr ($myC3[0] + ".translateX") 10;
+    
+    setAttr ($myC1[0] + ".translateY") 3;
+    setAttr ($myC2[0] + ".translateY") 3;
+    setAttr ($myC3[0] + ".translateY") 3;
+    
+    string $l = `shadingNode -asShader lambert -name "Lred"`;
+    setAttr ($l + ".color") -type double3 1 0 0;
+    select $myC1[0];
+    hyperShade -assign $l;
+    select -cl;
+    
+    string $l2 = `shadingNode -asShader lambert -name "Lgreen"`;
+    setAttr ($l2 + ".color") -type double3 0 1 0;
+    select $myC2[0];
+    hyperShade -assign $l2;
+    select -cl;
+    
+    string $b = `shadingNode -asShader blinn -name "Bblue"`;
+    setAttr ($b + ".color") -type double3 0 0 1;
+    select $myC3[0];
+    hyperShade -assign $b;
+    select -cl;
+}

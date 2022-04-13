@@ -1,0 +1,11 @@
+//Write a script that based on selection will print how many objects /nodes the user has selected.
+
+{
+    string $selection[] = `ls -sl`;
+    int $count = 0;
+    for($item in $selection)
+    {
+        $count = $count +1;
+    }
+    print $count;
+}
