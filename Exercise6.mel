@@ -1,0 +1,67 @@
+//Write a script that is similar to the randomize script we looked at in class,
+//but instead of creating x number of duplicates,
+//the script should randomize the position, rotation, and scale on objects that the user selects.
+//So for example, if you have 100 boxes aligned in a 10 by 10 grid formation,
+//the user should be able to pick and choose by selecting in the viewport which of those boxes should get randomized.
+//it could be with a UI and a randomize button if you want, but it's not a requirement...
+//A simple proc that can be run in the script editor is fine.
+
+{
+    proc randomPosRotScale(string $sel[], float $minP, float $maxP, float $minR, float $maxR, float $minS, float $maxS)
+    {
+        if(size($sel) < 1)
+        {
+            return;
+        }
+
+        for ($i=0; $i<(size($sel)); $i++)
+        {
+            vector $newPos = `rand<<$minP, $minP, $minP>> <<$maxP, $maxP, $maxP>>`;
+            move -rpr ($newPos.x) ($newPos.y) ($newPos.z) $sel[$i];
+            
+            vector $newRot = `rand<<$minR, $minR, $minR>> <<$maxR, $maxR, $maxR>>`;
+            rotate -a ($newRot.x) ($newRot.y) ($newRot.z) $sel[$i];
+            
+            vector $newScale = `rand<<$minS, $minS, $minS>> <<$maxS, $maxS, $maxS>>`;
+            scale -a ($newScale.x) ($newScale.y) ($newScale.z) $sel[$i];
+    
+       }
+    }
+    string $window = `window -title "Exercise5" -s 0 -w 300 -h 500`;
+        columnLayout;
+            rowLayout -nc 2;
+                text -label "Min Position";
+                text -label "Max Position";
+            setParent..;
+            rowLayout -nc 2;
+                string $mMinP = `textField -text "-10"`;
+                string $mMaxP = `textField -text "10"`;
+            setParent..;
+            rowLayout -nc 2;
+                text -label "Min Rotation";
+                text -label "Max Rotation";
+            setParent..;
+            rowLayout -nc 2;
+                string $mMinR = `textField -text "-10"`;
+                string $mMaxR = `textField -text "10"`;
+            setParent..;
+            rowLayout -nc 2;
+                text -label "Min Scale";
+                text -label "Max Scale";
+            setParent..;
+            rowLayout -nc 2;
+                string $mMinS = `textField -text "-10"`;
+                string $mMaxS = `textField -text "10"`;
+            setParent..;
+            button -l "Randomize Selected" -c 
+            "float $minP = `textField -q -text $mMinP`;\n\
+            float $maxP = `textField -q -text $mMaxP`;\n\
+            float $minR = `textField -q -text $mMinR`;\n\
+            float $maxR = `textField -q -text $mMaxR`;\n\
+            float $minS = `textField -q -text $mMinS`;\n\
+            float $maxS = `textField -q -text $mMaxS`;\n\
+            randomPosRotScale(`ls -sl`, $minP, $maxP, $minR, $maxR, $minS, $maxS)";
+            button -l "Close" -c ("deleteUI -window " + $window);
+        setParent..;
+    showWindow $window;
+}
