@@ -5,6 +5,6 @@
     string $selection[] = `ls -sl`;
     for($item in $selection)
     {
-        move -relative -y 1.5;
+        move -r -y 1.5;
     }
 }
